@@ -4,6 +4,17 @@
 <h2>Hello World!</h2>
 </body>
 
-<a href="/user/login">登录</a>
+<button onclick="toLogin()">登录</button>
+<%--<button onclick="toRegister()">注册</button>--%>
+
+
+<script language="JavaScript" type="text/javascript">
+    function toLogin() {
+        window.location="http://localhost:8080/user/login";
+    }
+    function toRegister() {
+        window.location="http://localhost:8080/register";
+    }
+</script>
 
 </html>

@@ -1,57 +1,73 @@
 <html>
-<#include "../common/header.ftl">
+<#include "common/header.ftl">
 
 <body>
 <div id="wrapper" class="toggled">
 
-<#--边栏sidebar-->
-<#include "../common/nav.ftl">
+    <#--边栏sidebar-->
+    <#include "common/nav.ftl">
 
-<#--主要内容content-->
+    <#--主要内容content-->
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <form role="form" method="post" action="/sell/seller/product/save">
+                    <form role="form" method="post" action="" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label>名称</label>
-                            <input name="productName" type="text" class="form-control" value="${(productInfo.productName)!''}"/>
+                            <label>商品名称</label>
+                            <input name="name" type="text" class="form-control" value="${(product_info.name)!''}"/>
                         </div>
                         <div class="form-group">
-                            <label>价格</label>
-                            <input name="productPrice" type="text" class="form-control" value="${(productInfo.productPrice)!''}"/>
-                        </div>
-                        <div class="form-group">
-                            <label>库存</label>
-                            <input name="productStock" type="number" class="form-control" value="${(productInfo.productStock)!''}"/>
-                        </div>
-                        <div class="form-group">
-                            <label>描述</label>
-                            <input name="productDescription" type="text" class="form-control" value="${(productInfo.productDescription)!''}"/>
-                        </div>
-                        <div class="form-group">
-                            <label>图片</label>
-                            <input id="productIcon" name="productIcon" type="text" hidden="hidden" value="${(productInfo.productIcon)!''}"/>
-
-                            <div class="file-loading">
-                                <input id="input-id" type="file">
-                                <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过1M</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>类目</label>
-                            <select name="categoryType" class="form-control">
-                                <#list categoryList as category>
-                                    <option value="${category.categoryType}"
-                                            <#if (productInfo.categoryType)?? && productInfo.categoryType == category.categoryType>
-                                                selected
-                                            </#if>
-                                        >${category.categoryName}
-                                    </option>
+                            <label>商品类别</label>
+                            <select name="categoryId" class="form-control">
+                                <#list category_list as category>
+                                    <#if category.id==product_info.categoryId>
+                                        <option value="${category.id}" selected="selected"> ${category.name} </option>
+                                    </#if>
+                                    <#if category.id!=product_info.categoryId>
+                                        <option value="${category.id}" > ${category.name} </option>
+                                    </#if>
                                 </#list>
                             </select>
                         </div>
-                        <input hidden type="text" name="productId" value="${(productInfo.productId)!''}">
+                        <div class="form-group">
+                            <label>副标题</label>
+                            <input name="subtitle" type="text" class="form-control" value="${(product_info.subtitle)!''}"/>
+                        </div>
+                        <div class="form-group">
+                            <label>商品主图</label>
+
+                            <div class="file-loading">
+                                <input id="input-id-main" type="file" name="mainImage_file">
+                                <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过5M</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>商品子图</label>
+
+                            <div class="file-loading">
+                                <input id="input-id-sub" type="file" name="subImages_files" multiple="multiple">
+                                <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过5M</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>商品详情</label>
+                            <input name="detail" type="text" class="form-control" value="${(product_info.detail)!''}"/>
+                        </div>
+                        <div class="form-group">
+                            <label>商品价格</label>
+                            <input name="price" type="text" class="form-control" value="${(product_info.price)!''}"/>
+                        </div>
+                        <div class="form-group">
+                            <label>商品库存</label>
+                            <input name="stock" type="text" class="form-control" value="${(product_info.stock)!''}"/>
+                        </div>
+                        <div class="form-group">
+                            <label>商品状态</label>
+                            <input name="status" type="text" class="form-control" value="${(product_info.status)!''}"/>
+                        </div>
+
+                        <input hidden type="text" name="id" value="${(product_info.id)!''}">
                         <button type="submit" class="btn btn-default">提交</button>
                     </form>
                 </div>
@@ -67,33 +83,38 @@
 
     $(function () {
         var initialPreview = [];
-        if ('${(productInfo.productIcon)!""}' != '') {
-            initialPreview = "<img class='kv-preview-data file-preview-image' src='${(productInfo.productIcon)!""}'>"
-        }
 
-        $("#input-id").fileinput({
-            uploadUrl: '/sell/image/upload',
+
+        $("#input-id-main").fileinput({
+            uploadUrl: '/user/product/index/${product_info.id}',
             language: 'zh',
             browseClass: "btn btn-primary btn-block",
             showCaption: false,
             showRemove: false,
             showUpload: false,
             allowedFileExtensions: [ 'jpg', 'jpeg', 'png', 'gif' ],
-            maxFileSize: 1024,
+            maxFileSize: 5120,
             autoReplace: true,
             overwriteInitial: true,
             maxFileCount: 1,
             initialPreview: initialPreview,
         });
+        $("#input-id-sub").fileinput({
+            uploadUrl: '/user/product/index/${product_info.id}',
+            language: 'zh',
+            browseClass: "btn btn-primary btn-block",
+            showCaption: false,
+            showRemove: false,
+            showUpload: false,
+            allowedFileExtensions: [ 'jpg', 'jpeg', 'png', 'gif' ],
+            maxFileSize: 5120,
+            autoReplace: true,
+            overwriteInitial: true,
+
+            initialPreview: initialPreview,
+        });
     });
-    //上传完成设置表单内容
-    $('#input-id').on('fileuploaded', function(event, data, previewId, index) {
-        if (data.response.code != 0) {
-            alert(data.response.msg)
-            return
-        }
-        $('#productIcon').val(data.response.data.fileName)
-    });
+
 </script>
 </body>
 </html>

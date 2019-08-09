@@ -1,18 +1,18 @@
 package com.neuedu.service;
 
-import com.neuedu.exception.MyException;
 import com.neuedu.pojo.Category;
 
 import java.util.List;
 
 public interface ICategoryService {
 
-    int addCategory(Category category) throws MyException;
+    List<Category> findAll();
 
-    int deleteCategory(int categoryId)throws MyException;
+    int update(Category category);
 
-    int updateCategory(Category category)throws MyException;
+    int delete(int id);
 
-    public List<Category> findAll()throws MyException;
-    public Category findOne(Integer id) throws MyException;
+    int add(Category category);
+
+    Category findOne(Integer id);
 }

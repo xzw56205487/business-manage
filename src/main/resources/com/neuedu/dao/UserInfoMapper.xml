@@ -14,6 +14,8 @@
     <result column="question" property="question" jdbcType="VARCHAR" />
     <result column="answer" property="answer" jdbcType="VARCHAR" />
     <result column="role" property="role" jdbcType="INTEGER" />
+
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -32,12 +34,12 @@
     -->
     insert into neuedu_user (id, username, password, 
       email, phone, question, 
-      answer, role, create_time, 
+      answer, role, ip ,create_time,
       update_time)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
-      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{ip},now(),
+      now())
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.neuedu.pojo.UserInfo" >
     <!--
@@ -52,8 +54,8 @@
       question = #{question,jdbcType=VARCHAR},
       answer = #{answer,jdbcType=VARCHAR},
       role = #{role,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+        ip=#{ip},
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

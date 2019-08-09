@@ -7,35 +7,25 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>注册页面</title>
-  </head>
-  <body>
+<head>
+  <title>Title</title>
+</head>
+<body>
+<form action="" method="post">
+  用户名：<input type="text" name="username" /><br>
+  密码：<input type="password" name="password"/><br>
+  <input type="submit" value="submit"/>
 
 
- <form action="register" method="post">
+</form>
 
-   <span>用户名:</span>
-   <input type="text" name="username"/>
-   <br/>
-   <span>密码:</span>
-   <input type="password" name="password"/>
-   <br/>
-     <span>确认密码:</span>
-     <input type="password" name="confirmpassword"/>
-     <br/>
-     <span>密保问题:</span>
-     <input type="text" name="question"/>
-     <br/>
-     <span>密保答案:</span>
-     <input type="text" name="answer"/>
-     <br/>
-     <span>邮箱:</span>
-     <input type="text" name="email"/>
-     <br/>
-   <input type="submit" value="注册"/>
+<button  onclick="toRegister()">去注册</button>
+<script>
+  function toRegister() {
+    location.href="http://localhost:8080/user/register";
+  }
 
- </form>
-
-  </body>
+</script>
+</body>
 </html>
+

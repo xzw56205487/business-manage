@@ -12,16 +12,28 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <form role="form" method="post" action="/sell/seller/category/save">
+                    <form role="form" method="post" action="">
                         <div class="form-group">
-                            <label>名字</label>
-                            <input name="categoryName" type="text" class="form-control" value="${(category.categoryName)!''}"/>
+                            <label>类别名称</label>
+                            <input name="name" type="text" class="form-control" value="${(category.name)!''}"/>
                         </div>
+                        <label>所属父类</label>
+                        <select name="parentId" class="form-control">
+                            <option value="0">无</option>
+                            <#list category_list as category>
+                                <#if category.id==category_info.parentId>
+                                    <option value="${category.id}" selected="selected"> ${category.name} </option>
+                                </#if>
+                                <#if category.id!=category_info.parentId>
+                                    <option value="${category.id}" > ${category.name} </option>
+                                </#if>
+                            </#list>
+                        </select><br>
                         <div class="form-group">
-                            <label>type</label>
-                            <input name="categoryType" type="number" class="form-control" value="${(category.categoryType)!''}"/>
+                            <label>状态</label>
+                            <input name="status" type="text" class="form-control" value="${(category_info.status)!''}"/>
                         </div>
-                        <input hidden type="text" name="categoryId" value="${(category.categoryId)!''}">
+                        <input hidden type="text" name="categoryId" value="${(category_info.id)!''}">
                         <button type="submit" class="btn btn-default">提交</button>
                     </form>
                 </div>

@@ -6,7 +6,7 @@ import com.neuedu.dao.UserInfoMapper;
 import com.neuedu.exception.MyException;
 import com.neuedu.pojo.UserInfo;
 import com.neuedu.service.IUserService;
-import org.apache.ibatis.annotations.Param;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +39,9 @@ public class UserServiceImpl implements IUserService {
         //setp2:判断用户名是否存在
 
 
-        int username_result=userInfoMapper.existUsername(userInfo.getUsername());
+        int result=userInfoMapper.existUsername(userInfo.getUsername());
 
-        if(username_result==0){//用户名不存在
+        if(result==0){//用户名不存在
 
             throw new MyException("用户名不存在");
         }
@@ -55,11 +55,43 @@ public class UserServiceImpl implements IUserService {
 
         //step4:权限认证
         if(userInfo_result.getRole()!=0){
-            throw new MyException("没有权限");
+            throw new MyException("没有权限！");
         }
 
 
-        return userInfo_result;
+        return userInfo;
+    }
+
+    @Override
+    public int register(UserInfo userInfo) {
+        if(userInfoMapper.existUsername(userInfo.getUsername())==1){
+            throw new MyException("用户名已经存在");
+        }
+
+
+
+        return userInfoMapper.insert(userInfo);
+    }
+
+    @Override
+    public int update(UserInfo userInfo) {
+        return userInfoMapper.updateByPrimaryKey(userInfo);
+    }
+
+    @Override
+    public int delete(int id) {
+        return userInfoMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public List<UserInfo> findAll() {
+
+        return userInfoMapper.selectAll();
+    }
+
+    @Override
+    public UserInfo findOne(int id) {
+        return userInfoMapper.selectByPrimaryKey(id);
     }
 
 }
